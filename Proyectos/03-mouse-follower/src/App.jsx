@@ -4,8 +4,15 @@ import { useEffect, useState } from "react"
 const FollowMouse = () => {
   const [enabled, setEnabled] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
-  //el primer parametro es el codigo que se va a ejecutar 
-  //el 2 parametro es cuando se va a ejecutar, en este caso cuando cambie el estado enabled
+ 
+
+  /*
+  El primer parametro es el codigo que se va a ejecutar 
+  El 2 parametro es cuando se va a ejecutar, en este caso cuando cambie el estado enabled
+  Si las dependencias son [] => se ejecuta una vez al montarse el componente
+  Si las dependencias son [enabled]=>Se ejecuta cuando cambia la dependencia y cuando se monta el componente
+  Si las dependencias son undefined => Se ejecuta siempre que se renderice el componente
+  */
   useEffect(() => {
     //funcion que recibe un evento  
     const handleMove = (event) => {
