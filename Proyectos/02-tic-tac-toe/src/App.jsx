@@ -23,6 +23,7 @@ function App() {
   }
   )
 
+  //recuperamos el turno del localStorage
   const [turn, setTurn]=useState(()=>{
     const turnFromStorage=window.localStorage.getItem('turn')
     return turnFromStorage ?? TURNS.X
@@ -37,6 +38,7 @@ function App() {
     setBoard(Array(9).fill(null))
     setTurn(TURNS.X)
     setWinner(null)
+    //borramos los elementos del local storage
     window.localStorage.removeItem('board')
     window.localStorage.removeItem('turn')
   }
