@@ -1,0 +1,8 @@
+Cuando no te dejen usar el template de vite hay que instalar 
+las dependencias a mano
+1º: npm install @vitejs/plugin-react -E (Instala el plugin de react con la versión exacta)
+2º: npm install react react-dom -E Instala las bibliotecas
+3º: Realizamos la configuracion de vite en archivo vite.config.js
+4º: Cambiar los archivos de .js a .jsx
+5º: Instalar el linter
+6º: Crear la carpeta src 
