@@ -1,30 +1,40 @@
 /* eslint-disable no-trailing-spaces */
-import { useState, useEffect } from 'react'
-
+import './App.css'
+import { useCatImage } from './hooks/useCatImages.js'
+import { useCatFact } from './hooks/useCatFact.js'
 //  Asegurarse de que el endpoint de la API es el que nos devuelve lo que queremos
 
-const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact'
+const CAT_PREFIX = 'https://cataas.com'
+// CREAR CUSTOM HOOK IMPORTANTE <----
+
 // const CAT_ENDPOINT_IMAGE_URL = `https://cataas.com/cat/says/${firstWord}?size=50&color=red&json=true`
+
 export function App () {
-//  Utilizamos un estado para el hecho que recuperaremos de la app
-  const [fact, setFact] = useState('lorem ipsum cat fact')
-  
-  /* Hacemos un fetching
-    de datos (recuperar los datos de una API)con un useEffect con el
-    array de dependecias vacio para que se realice solo al montarse el componente
-    una vez realizado el fetch devuelve una promesa
-    --> .then() 
+  // Recuperamos el fact y la funcion para poder pasarselo al hook de la imagen y para poder usar la funcion
+  const { fact, refreshFact } = useCatFact()
+  /* Buena practica pasar el parametro como objeto
+  Hemos hecho un custom HOOK y toda lo logica se realiza en esa funcion
+  Los custom hooks no deben tener nombres de lo que haga el codigo 
+  ya que no tienen en cuenta la implementacion
   */
+  const { imageURL } = useCatImage({ fact })
+  // eslint-disable-next-line no-unused-vars
   // eslint-disable-next-line no-undef
-  useEffect(() => {
-    fetch(CAT_ENDPOINT_RANDOM_FACT)
-      .then(res => res.json())
-      .then(data => setFact(data.fact))
-  }, [])
+  /* Es mejor usar dos efectos por eso separarlos 
+     Para que solo tenga una responsabilidad el efecto
+  */
+  const handleClick = async () => {
+    refreshFact()
+  }
   return (
     <main>
       <h1>App de gatitos</h1>
-      <p>{fact}</p>
+      <section>
+        <button onClick={handleClick}> Get New Fact</button>
+        {fact && <p>{fact}</p>}{/*  Esto es un renderizado condicional, solo se renderiza si hay "fact"  */}
+        <img src={`${CAT_PREFIX}${imageURL}`} alt={`Image extracted using the first word for ${fact}`} />
+
+      </section>
     </main>
   )
 }

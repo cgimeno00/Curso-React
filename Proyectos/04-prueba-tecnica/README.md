@@ -5,4 +5,4 @@ APIs:
 
 - Recupera un hecho aleatorio de gatos de la primera API 
 - Recuperamos la primera palabra
--Muestra una imagen de un gato con la primera palabra del hecho recuperado usando la segunda API 
+- Muestra una imagen de un gato con la primera palabra del hecho recuperado usando la segunda API 
