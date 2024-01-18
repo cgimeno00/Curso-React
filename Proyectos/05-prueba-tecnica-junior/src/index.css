@@ -754,6 +754,7 @@ select {
   padding-right: 35px;
 }
 
+
 @media (prefers-color-scheme: dark) {
 
   select {
