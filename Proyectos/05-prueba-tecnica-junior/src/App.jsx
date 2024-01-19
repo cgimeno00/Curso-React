@@ -1,16 +1,19 @@
 
 import './App.css'
 
-import { useEffect, useRef, useState } from 'react' //sirve para guardar datos que persistan todo el ciclo de vida del componente y que aunque cambie no dispara un nuevo renderizado
+import { useCallback, useEffect, useRef, useState } from 'react' //sirve para guardar datos que persistan todo el ciclo de vida del componente y que aunque cambie no dispara un nuevo renderizado
 
 import { Movies } from './components/movies.jsx'
 
 import { useMovies } from './hooks/useMovies.js'
 
+import debounce from 'just-debounce-it'
+
 
 function useSearch (){
   const[search, updateSearch]= useState('')
   const [error,setError]=useState(null)
+
   const isFirstInput=useRef(true)
   useEffect(()=>{
     if(isFirstInput.current){
@@ -35,10 +38,14 @@ function useSearch (){
     return{search,updateSearch,error}
 
 }
-function App() {
 
+function App() {
+  const debounceGetMoviies=useCallback(debounce(search=>{
+    getMovies({search})
+  },2000),[]) 
+  const[sort,setSort]=useState(false)
   const{search, updateSearch, error}=useSearch()
-  const{movies,getMovies,loading} = useMovies({search})
+  const{movies,getMovies,loading} = useMovies({search,sort})
 
   /*
   --> CON HOOK USEREF
@@ -93,14 +100,19 @@ const handleSubmit = (event) => {
 */
 const handleSubmit = (event) => {
   event.preventDefault() //para evitar el comportamiento por defecto
-    getMovies()
+    getMovies({search})
    
  }
 
    const handleChange=(event)=>{
-    updateSearch(event.target.value)
+    const newSearch=event.target.value 
+    updateSearch(newSearch)
+    debounceGetMoviies(newSearch)
    }
    
+   const handleSort=()=>{
+    setSort(!sort)
+   }
   
 
 
@@ -113,7 +125,7 @@ const handleSubmit = (event) => {
           <label >
             Put movie to search
             <input onChange={handleChange} value={search} name='query' placeholder='Avengers, Star Wars...' />
-
+            <input type='checkbox' onChange={handleSort} checked={sort}/>
             <button  type='submit'>Buscar</button>
           </label>
         </form>
