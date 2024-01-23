@@ -1,9 +1,16 @@
 import './Filters.css'
-import { useState } from 'react'
+import { useState, useId } from 'react'
 // eslint-disable-next-line react/prop-types
 export function Filters ({onChange}){
     const [minPrice,setMinPrice]=useState(0)// Debemos poner un estado para poder mostrar el valor del rango ya que si no no se ve nada solo la barra
    
+    /*
+    //usamos useId para que nos de una id Unica que podamos usar en los inputs
+    Funciona por el orden de llamada de componentes, NO FUNCIONA PARA MAPS
+    */ 
+    const minPriceFilterId=useId()
+    const categoryFilterId=useId() 
+                                                
     const handleChangeMinPrice=(event)=>{
         //Esto esta mal 
         setMinPrice(event.target.value)
@@ -27,8 +34,9 @@ export function Filters ({onChange}){
                 <label htmlFor="price">Price </label>
                 <input 
                 type="range"
-                id='price'
-                min='0'
+               // id='price' Esta id no valdria ya que podria estar en otro lado por lo que usaremos useId() que nos dara un id unico 
+               id = {minPriceFilterId} 
+               min='0'
                 max='1000'
                 step='10'
                 onChange={handleChangeMinPrice}
@@ -37,8 +45,8 @@ export function Filters ({onChange}){
             </div>
 
             <div>
-                <label htmlFor="category">Categoria</label>
-                <select id="category" onChange={handleChangeCategory}>
+                <label htmlFor={categoryFilterId}>Categoria</label>
+                <select id={categoryFilterId} onChange={handleChangeCategory}>
                     <option value="all">Todas</option>
                     <option value="laptops">Portatiles</option>
                     <option value= "smartphones">SmartPhones</option>
