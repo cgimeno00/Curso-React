@@ -1,9 +1,10 @@
+import { useFilters } from '../hooks/useFilters'
 import './Filters.css'
-import { useState, useId } from 'react'
+import {  useId } from 'react'
 // eslint-disable-next-line react/prop-types
-export function Filters ({onChange}){
-    const [minPrice,setMinPrice]=useState(0)// Debemos poner un estado para poder mostrar el valor del rango ya que si no no se ve nada solo la barra
+export function Filters (){
    
+    const {filters,setFilters}=useFilters()
     /*
     //usamos useId para que nos de una id Unica que podamos usar en los inputs
     Funciona por el orden de llamada de componentes, NO FUNCIONA PARA MAPS
@@ -13,8 +14,8 @@ export function Filters ({onChange}){
                                                 
     const handleChangeMinPrice=(event)=>{
         //Esto esta mal 
-        setMinPrice(event.target.value)
-        onChange(prevState => ({ //coge el estado anterior y 
+       
+        setFilters(prevState => ({ //coge el estado anterior y 
             ...prevState, //el nuevo estado es el estado previo con el cambio en el minPrice
             minPrice:event.target.value
         }))
@@ -23,7 +24,7 @@ export function Filters ({onChange}){
     const handleChangeCategory=(event)=>{
         //Es un error pasarle la funcion de actualizar estado nativa a un componente hijo
         
-        onChange(prevState => ({ //coge el estado anterior y 
+       setFilters(prevState => ({ //coge el estado anterior y 
             ...prevState, //el nuevo estado es el estado previo con el cambio en el minPrice
            category:event.target.value 
         }))
@@ -40,8 +41,9 @@ export function Filters ({onChange}){
                 max='1000'
                 step='10'
                 onChange={handleChangeMinPrice}
+                value={filters.minPrice}
                 />
-                <span>${minPrice}</span>
+                <span>${filters.minPrice}</span>
             </div>
 
             <div>
