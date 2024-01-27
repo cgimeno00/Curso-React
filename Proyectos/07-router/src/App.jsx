@@ -4,44 +4,9 @@ import './App.css'
 import { useEffect } from 'react'
 import { EVENTS } from './assets/const'
 
+import HomePage from './pages/Home'
 
-
-
-
-function navigate(href){
-  window.history.pushState({},'',href)
-
-  // creamos evento personalizado para avisar de que cambiamos url 
-
-  const navigationEvent= new Event(EVENTS.PUSHSTATE)
-  window.dispatchEvent(navigationEvent)
-}
-
-
-
-function HomePage(){
-  return(
-    <>
-    <p>Esta es una pagina de ejemplo para crear un react router</p>
-    <a href='/about'>  Ir a Sobre Nosotros </a>
-    </>
-  )
-}
-
-
-function AboutPage(){
-  return (
-    <>
-    <h1> About</h1>
-    <p> Hola esto es un clon de react router </p>
-    <a href='/'>Ir  a Home </a>
-    </>
-  )
-}
-
-
-
-
+import AboutPage from './pages/About'
 
 
 
