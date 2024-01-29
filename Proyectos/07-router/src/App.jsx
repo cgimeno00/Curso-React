@@ -1,32 +1,29 @@
+/* eslint-disable react/prop-types */
 
-import { useState } from 'react'
-import './App.css'
-import { useEffect } from 'react'
-import { EVENTS } from './assets/const'
+import {Router} from './Router.jsx'
 
 import HomePage from './pages/Home'
+import { Suspense, lazy } from 'react'
+//import AboutPage from './pages/About'
+import Page404 from './pages/404.jsx'
+import SearchPage from './Search.jsx'
+import { Route } from './Route.jsx'
 
-import AboutPage from './pages/About'
+
+
+const LazyAboutPage=lazy (()=> import ('./pages/About.jsx'))
+
+const routes =[ //creamos un array para extraer las rutas y el componente al que lleva cada una 
+
+  {
+    path:'/search/:query', //Rutas dinamicas para capturar el query y poder ir a una rota o a otra
+    Component:SearchPage
+  }
+]
 
 
 
 function App() {
- 
-const [currentPath,setCurrentPath]=useState(window.location.pathname)
-
-useEffect(()=>{
-const onLocationChange=()=>{
-  setCurrentPath(window.location.pathname) //cambiamos el setState cuando se realice el evento
-}
-window.addEventListener(EVENTS.PUSHSTATE,onLocationChange) //escuchamos el evento que hemos creado 
-
-window.addEventListener(EVENTS.POPSTATE,onLocationChange)//popstate es el evento de cuando damos hacia atras en la pagina
-
-return ()=>{
-  window.removeEventListener(EVENTS.PUSHSTATE,onLocationChange) //importante desuscribirte del evento 
-  window.removeEventListener(EVENTS.POPSTATE,onLocationChange)
-}
-},[])
 
 
 
@@ -34,9 +31,14 @@ return ()=>{
     <>
       <h1>Router</h1>
     <main>
-      {currentPath==='/' &&<HomePage/>}
-     
-     {currentPath==='/about' && <AboutPage/>}
+      <Suspense fallback={<div>Loading...</div>}>
+      <Router routes={routes} defaultComponent={Page404}>
+    <Route path= '/' Component={HomePage}></Route>
+    <Route path= '/about' Component={LazyAboutPage}></Route>
+
+   </Router>
+      </Suspense>
+   
     </main>
     
     </>

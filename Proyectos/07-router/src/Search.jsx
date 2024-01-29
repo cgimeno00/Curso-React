@@ -1,0 +1,9 @@
+/* eslint-disable react/prop-types */
+import { useEffect } from "react"
+
+export default function SearchPage({routeParams}){
+    useEffect(()=>{
+            document.title=`Has buscado ${routeParams.query}`
+    },[])
+    return (<h1>Buscador {routeParams.query}</h1>)
+}
