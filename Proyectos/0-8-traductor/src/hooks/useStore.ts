@@ -20,6 +20,8 @@ function reducer (state: State, action: Action): State {
   // Recuperamos la accion y el payload
   const { type } = action
   if (type === 'INTERCHANGE_LANGUAGES') {
+    // Logica del estado dentro del reducer, se evita en los componentes
+    if (state.fromLanguage === 'auto') return state
     return {
       ...state,
       fromLanguage: state.toLanguage,
